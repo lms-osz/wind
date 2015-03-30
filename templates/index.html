@@ -1,0 +1,22 @@
+<html>
+
+<head>
+	<title>Wind Data</title>
+	<!-- JQuery -->
+	<script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
+	
+	<link rel="stylesheet" href="{{ static_url("main.css") }}" type="text/css" />
+	<link rel="shortcut icon" href="{{ static_url("icon.png") }}" type="image/png" />
+
+	<script src="{{ static_url("main.js") }}"></script>
+</head>
+
+<body>
+        <div id="websockets_not_supported">Websockets are not supported!<br>Try with another browser like Firefox</div>
+	<span style="z-index:1;position:absolute;display:none;color:#ffffff;background-color:#ff0000;" id="disconnected-ws">No Connection to the Data-Server</span>
+	<br>
+	Wind Power (in Meter per Second): <input type="text" id="wind"><br><br>
+	<!-- <canvas id="Chart" width="818" height="409" style="width: 818px; height: 409px;"></canvas>-->
+</body>
+
+</html>

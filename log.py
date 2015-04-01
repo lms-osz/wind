@@ -1,9 +1,15 @@
 import os
 import time
 
+LOG_DIR = "logs/"
+
 now = time.localtime()
 
-tmplogfile_path = "logs/" + str(now.tm_year) + "-" +  str(now.tm_mon) + "-" + str(now.tm_mday);
+if not os.path.isdir(LOG_DIR):
+    os.mkdir(LOG_DIR)
+
+tmplogfile_path = LOG_DIR + str(now.tm_year) + "-" +  str(now.tm_mon) + "-" + str(now.tm_mday);
+
 i = 0
 if os.path.isfile(tmplogfile_path + ".log"):
     i = i + 1

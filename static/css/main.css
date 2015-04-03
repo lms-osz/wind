@@ -1,14 +1,22 @@
 body, html {
-	height: 100%;
+    height: 100%;
+    width: 100%;
 }
 #websockets_not_supported {
     top: 0px;
     left: 0px;
     z-index:100000;
     position:fixed;
-    display:none;
+    display: none;
     color:#ffffff;
     background-color:#000000;
     width:100%;
     height:100%;
+}
+#disconnected-ws {
+    z-index:1;
+    position:absolute;
+    display: none;
+    color:#ffffff;
+    background-color:#ff0000;
 }

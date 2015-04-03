@@ -5,8 +5,6 @@ if (window.location.protocol == "http:") {
 }
 websocketurl = wsprotocol + location.hostname+(location.port ? ':'+location.port: '') + "/ws";
 
-//WindChart = null, ctx = null;
-
 function ConnectWs() {
 	try {
 		websocket = new WebSocket(websocketurl);
@@ -27,8 +25,6 @@ function ConnectWs() {
 	};
 }
 $(document).ready(function() {
-	//ctx = $("#Chart").get(0).getContext("2d");
-	//WindChart = new Chart(ctx).Line(data, options);
 	ConnectWs();
 });
 
@@ -47,7 +43,6 @@ function onClose(evt) {
 
 function onMessage(evt) {
 	console.log(evt.data);
-	//WindChart.addData([40, 60], "August");
 	$('#wind').val(evt.data);
 }
 

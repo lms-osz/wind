@@ -8,16 +8,12 @@ from tornado.options import define, options
 import os.path
 import json
 import thread
-import random
+import MySQLdb
 
 import config
 import log
 
 clients = []
-#r = redis.StrictRedis(host=options.RedisHost, port=options.RedisPort, db=0)
-#r.set('foo', 'bar')
-#print r.get('foo')
-
 
 class SilentErrorHandler(tornado.web.ErrorHandler):
     def _log(self): pass
@@ -67,7 +63,12 @@ def RealtimeWindDaterFormater(data):
     data = data
     return data
 
+def writeWindData(data):
+    
+    pass
+
 def WindDataSender(data):
+    writeWindData(data)
     for client in clients:
         client.write_message(RealtimeWindDaterFormater(data))
 

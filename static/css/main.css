@@ -20,3 +20,27 @@ body, html {
     color:#ffffff;
     background-color:#ff0000;
 }
+.new-window {
+    top: 20%;
+    left: 25%;
+    z-index: 5;
+    position: fixed;
+    width: 50%;
+    height: 50%;
+    display: none;
+    background-color:#FFFFFF;
+}
+#blackout {
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: fixed;
+    background-color: #000000;
+    opacity: 0.5;
+}
+.close-window-btn {
+    cursor: pointer;
+    color: #000000;
+}

@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# ~*~ coding: utf-8 ~*~
+
 import websocket
 import thread
 import time
@@ -5,10 +8,6 @@ import random
 import getData
 
 import config
-
-WS_HOST = "ws://127.0.0.1/datasocket"
-WS_PW = "foobar"
-DELAY = 2 #in seconds
 
 def on_message(ws, message):
     print message

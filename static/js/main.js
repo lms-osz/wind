@@ -1,3 +1,4 @@
+// websocket stuff
 if (window.location.protocol == "http:") {
     wsprotocol = "ws://";
 } else {
@@ -53,4 +54,21 @@ function onError(evt) {
 function doSend(message) {
 	console.log("SENT: " + message);
 	websocket.send(message);
+}
+// other stuff
+function about_window(open) {
+    var panal = "#about_panal";
+    var blackout = "#blackout";
+    if (open) {
+        $(panal).css("display","block");
+        $(blackout).css("display","block");
+    } else {
+        $(panal).css("display","none");
+        $(blackout).css("display","none");
+    }
+}
+document.onkeydown = function(event) {
+    if (event.keyCode == 27) {
+        about_window(false)
+    }
 }

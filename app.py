@@ -11,7 +11,7 @@ from tornado.options import define, options
 import os.path
 import json
 import thread
-import MySQLdb
+import sqlite3
 
 import config
 import log
@@ -52,9 +52,11 @@ class DataSocketHandler(tornado.websocket.WebSocketHandler):
                  WindDataSender(json_array["data"])
             else:
                 self.write_message("error bad request")
+                log.error("bad request! (wrong password: " + json_array["pw"] + ")")
                 return
         except:
             self.write_message("error bad request")
+            log.error("bad request!")
             return
 
 class IndexHandler(tornado.web.RequestHandler):
@@ -63,7 +65,7 @@ class IndexHandler(tornado.web.RequestHandler):
         request.render("index.html")
 
 def RealtimeWindDaterFormater(data):
-    data = data
+    data = "{\"mode\":\"update\",\"data\":" + str(data) + "}";
     return data
 
 def writeWindData(data):

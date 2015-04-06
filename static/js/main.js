@@ -13,18 +13,21 @@ function ConnectWs() {
 		return;
 	}
 	websocket.onopen = function(evt) {
-		onOpen(evt)
+		onOpen(evt);
 	};
 	websocket.onclose = function(evt) {
-		onClose(evt)
+		onClose(evt);
 	};
 	websocket.onmessage = function(evt) {
-		onMessage(evt)
+		onMessage(evt);
 	};
 	websocket.onerror = function(evt) {
-		onError(evt)
+		onError(evt);
 	};
 }
+/***********************************************
+ *       connecting to the websocket           *
+ ***********************************************/
 $(document).ready(function() {
 	ConnectWs();
 });
@@ -32,19 +35,23 @@ $(document).ready(function() {
 function onOpen(evt) {
 	console.log("opened")
 	$("#disconnected-ws").css("display", "none");
+        doSend('{"client":"web","realtimedata":true}');
 }
 
 function onClose(evt) {
 	console.log("DISCONNECTED");
 	$("#disconnected-ws").css("display", "block");
 	setTimeout(function() {
-		ConnectWs()
+		ConnectWs();
 	}, 2000);
 }
 
 function onMessage(evt) {
-	console.log(evt.data);
-	$('#wind').val(evt.data);
+	console.log("RECEIVE: " + evt.data);
+        var parsedJSON = jQuery.parseJSON(evt.data);
+        if (parsedJSON.mode == "update") {
+		$('#wind-power').html(parsedJSON.data);
+	}
 }
 
 function onError(evt) {

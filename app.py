@@ -105,11 +105,7 @@ def main():
     server.listen(config.port)
     
     # ioloop
-    try:
-        tornado.ioloop.IOLoop.instance().start()
-    except KeyboardInterrupt:
-        print ""
-        log.info("Server stopped")
+    tornado.ioloop.IOLoop.instance().start()
 
 hour_wind = open("hour_wind.txt", "w")
 day_wind = open("day_wind.txt", "w")
@@ -187,7 +183,12 @@ def year():
 
 
 if __name__ == "__main__":
-	main()
-	Thread(target = hour).start()
+    try:
+        main()
+        Thread(target = hour).start()
         Thread(target = day).start()
-	Thread(target = year).start()
+        Thread(target = year).start()
+    except KeyboardInterrupt:
+        print ""
+        log.info("Server stopped")
+        exit()

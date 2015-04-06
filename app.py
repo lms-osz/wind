@@ -20,6 +20,7 @@ import config
 import log
 import time
 clients = []
+global data_global = 0
 
 class SilentErrorHandler(tornado.web.ErrorHandler):
     def _log(self): pass
@@ -52,6 +53,7 @@ class DataSocketHandler(tornado.websocket.WebSocketHandler):
         try:
             json_array = json.loads(message)
             if json_array["pw"] == config.password:
+                 data_global = json_array["data"];
                  WindDataSender(json_array["data"])
             else:
                 self.write_message("error bad request")
@@ -118,7 +120,7 @@ def hour():
 		x=0
 
 		for x in range (0,59):
-			hour_wind.write("2\n")
+			hour_wind.write(str(data_global) + "\n")
 			hour_wind.flush()
 			time.sleep(60)
 			#time.sleep(2)			

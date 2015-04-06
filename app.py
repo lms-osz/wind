@@ -14,13 +14,14 @@ import thread
 import sys
 import threading
 from threading import Thread
+import sqlite3
 
 import math
 import config
 import log
 import time
 clients = []
-global data_global = 0
+global c
 
 class SilentErrorHandler(tornado.web.ErrorHandler):
     def _log(self): pass
@@ -54,14 +55,14 @@ class DataSocketHandler(tornado.websocket.WebSocketHandler):
             json_array = json.loads(message)
             if json_array["pw"] == config.password:
                  data_global = json_array["data"];
-                 WindDataSender(json_array["data"])
+                 WindDataSender(int(json_array["data"]))
             else:
                 self.write_message("error bad request")
                 log.error("bad request! (wrong password: " + json_array["pw"] + ")")
                 return
         except:
             self.write_message("error bad request")
-            log.error("bad request!")
+            log.error("bad request!: (" + message + ")")
             return
 
 class IndexHandler(tornado.web.RequestHandler):
@@ -70,12 +71,13 @@ class IndexHandler(tornado.web.RequestHandler):
         request.render("index.html")
 
 def RealtimeWindDaterFormater(data):
+    writeWindData(data);
     data = "{\"mode\":\"update\",\"data\":" + str(data) + "}";
     return data
 
-def writeWindData(data):
-    
-    pass
+def WindDataSender(data):
+    c.execute('''INSERT INTO ata(imestamp,ata) VALUES (''' + str(time.time()) + ''',''' + str(data) + ''')''')
+
 
 def WindDataSender(data):
     writeWindData(data)
@@ -83,6 +85,9 @@ def WindDataSender(data):
         client.write_message(RealtimeWindDaterFormater(data))
 
 def main():
+    conn = sqlite3.connect('example.db')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS Data ( Timestamp INTEGER, Data INTEGER);''')
     # handlers
     handlers = [
         (r"/", IndexHandler),
@@ -119,15 +124,13 @@ def hour():
 
 		x=0
 
-		for x in range (0,59):
-			hour_wind.write(str(data_global) + "\n")
-			hour_wind.flush()
-			time.sleep(60)
-			#time.sleep(2)			
-			x+=1
-
-		hour_wind.seek(0)
-		hour_wind.truncate()
+        for x in range (0,59):
+            hour_wind.write(str(data_global()) + "\n")
+            hour_wind.flush()
+            time.sleep(60)
+            x+=1
+        hour_wind.seek(0)
+        hour_wind.truncate()
 
 def day():
 	
@@ -194,3 +197,4 @@ if __name__ == "__main__":
         print ""
         log.info("Server stopped")
         exit()
+    writeWindData(666)

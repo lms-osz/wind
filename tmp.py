@@ -21,6 +21,7 @@ import config
 import log
 import time
 clients = []
+global c
 
 class SilentErrorHandler(tornado.web.ErrorHandler):
     def _log(self): pass
@@ -50,7 +51,6 @@ class DataSocketHandler(tornado.websocket.WebSocketHandler):
         pass
     
     def on_message(self,message):
-        try:
             json_array = json.loads(message)
             if json_array["pw"] == config.password:
                  WindDataWriter(int(json_array["data"]))
@@ -59,10 +59,7 @@ class DataSocketHandler(tornado.websocket.WebSocketHandler):
                 self.write_message("error bad request")
                 log.error("bad request! (wrong password: " + json_array["pw"] + ")")
                 return
-        except:
-            self.write_message("error bad request")
-            log.error("bad request!: (" + message + ")")
-            return
+
 
 class IndexHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -70,21 +67,20 @@ class IndexHandler(tornado.web.RequestHandler):
         request.render("index.html")
 
 def RealtimeWindDaterFormater(data):
+    writeWindData(data);
     data = "{\"mode\":\"update\",\"data\":" + str(data) + "}";
     return data
 
 def WindDataWriter(data):
-    c.execute('''INSERT INTO Data VALUES ("''' + str(time.time()) + '''",\'''' + str(data) + '''\')''')
-    conn.commit()
+    print('''INSERT INTO Data(Timestamp,Data) VALUES (''' + str(time.time()) + ''',''' + str(data) + ''')''')
 
 
 def WindDataSender(data):
+    writeWindData(data)
     for client in clients:
         client.write_message(RealtimeWindDaterFormater(data))
 
 def main():
-    global conn
-    global c
     conn = sqlite3.connect('example.db')
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS Data ( Timestamp INTEGER, Data INTEGER);''')

@@ -76,7 +76,7 @@ def RealtimeWindDaterFormater(data):
     return data
 
 def WindDataSender(data):
-    c.execute('''INSERT INTO ata(imestamp,ata) VALUES (''' + str(time.time()) + ''',''' + str(data) + ''')''')
+    c.execute('''INSERT INTO Data(Timestamp,Data) VALUES (''' + str(time.time()) + ''',''' + str(data) + ''')''')
 
 
 def WindDataSender(data):

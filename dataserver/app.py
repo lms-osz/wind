@@ -22,12 +22,12 @@ def on_close(ws):
 def on_open(ws):
     def run(*args):
         while True:
-            time.sleep(config.delay)
-            ws.send('{"pw":"' + options.password + '", "data":"' + getData.GetData() + '"}') # sending data in an json format to the server
+            time.sleep(int(config.delay))
+            ws.send('{"pw":"' + config.password + '", "data":"' + str(getData.getData()) + '"}') # sending data in an json format to the server
     thread.start_new_thread(run, ())
 
 def openWS():
-    ws = websocket.WebSocketApp(options.url, on_message = on_message, on_error = on_error, on_close = on_close)
+    ws = websocket.WebSocketApp(config.url, on_message = on_message, on_error = on_error, on_close = on_close)
     
     ws.on_open = on_open
     

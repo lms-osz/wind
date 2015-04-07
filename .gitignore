@@ -50,3 +50,5 @@ target/
 DEADJOE
 #config
 config.cfg
+#database
+.db

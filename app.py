@@ -6,20 +6,21 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 import tornado.websocket
-from tornado.options import define, options
 
 import os.path
 import json
-import thread
 import sys
-import threading
-from threading import Thread
 import sqlite3
 
 import math
 import config
 import log
 import time
+#is there an error in the config-file?
+if config.config_error:
+   log.error("there is an error in the config")
+   exit()
+
 clients = []
 
 class SilentErrorHandler(tornado.web.ErrorHandler):

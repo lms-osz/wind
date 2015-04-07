@@ -85,7 +85,7 @@ def WindDataSender(data):
 def main():
     global conn
     global c
-    conn = sqlite3.connect('example.db')
+    conn = sqlite3.connect(config.db_file)
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS Data ( Timestamp INTEGER, Data INTEGER);''')
     # handlers
@@ -114,87 +114,12 @@ def main():
     # ioloop
     tornado.ioloop.IOLoop.instance().start()
 
-hour_wind = open("hour_wind.txt", "w")
-day_wind = open("day_wind.txt", "w")
-year_wind = open("year_wind.txt", "w")
-
-def hour():
-	
-	while 1:	
-
-		x=0
-
-        for x in range (0,59):
-            hour_wind.write(str(data_global()) + "\n")
-            hour_wind.flush()
-            time.sleep(60)
-            x+=1
-        hour_wind.seek(0)
-        hour_wind.truncate()
-
-def day():
-	
-	while 1:	
-		
-		with open("hour_wind.txt") as f:
-			numbers = []
-			for line in f:
-				numbers.append(int(line))
-			numbers.sort()
-		
-		count = len(numbers)
-		#max_num = max(numbers)
-		#min_num = min(numbers)
-		sum_of_nums = sum(numbers)
-		median1 = numbers[len(numbers)//2]
-		a = str(median1)
-		y = 0
-		
-		for y in range (0,23):
-			day_wind.write("%s\n" % (a))
-			day_wind.flush()
-			time.sleep(3600)
-			#time.sleep(2)
-			y+=1
-
-		hour_wind.seek(0)
-		hour_wind.truncate()
-
-def year():
-
-	while 1:
-
-		with open("day_wind.txt") as g:
-			numbers = []
-
-			for line in g:
-				numbers.append(int(line))
-			numbers.sort()
-
-		count = len(numbers)
-		#max_num = max(numbers)
-		#min_num = min(numbers)
-		sum_of_nums = sum(numbers)
-		median2 = numbers[len(numbers)//2]
-		b = str(median2)		
-		z = 0
-
-		for z in range (0,23):
-			year_wind.write("%s\n" % (b))
-			year_wind.flush()
-			time.sleep(86400)	
-			#time.sleep(2)
-			z+=1
-
 
 if __name__ == "__main__":
     try:
         main()
-        Thread(target = hour).start()
-        Thread(target = day).start()
-        Thread(target = year).start()
     except KeyboardInterrupt:
         print ""
         log.info("Server stopped")
         exit()
-    writeWindData(666)
+

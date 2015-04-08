@@ -21,7 +21,7 @@ if config.config_error:
    log.error("there is an error in the config")
    exit()
 
-clients = []
+clients = {}
 
 class SilentErrorHandler(tornado.web.ErrorHandler):
     def _log(self): pass
@@ -31,19 +31,30 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         return True
         
     def open(self):
-        clients.append(self)
+        clients[self] = {"send_current_data":True}
     
     def on_close(self):
-        clients.remove(self);
+        del(clients[self]);
     
     def on_message(self,message):
-        pass
-
+        try:
+            json_array = json.loads(message)
+        except:
+            self.write_message('{"error":"bad_request"}');
+            return;
+        if json_array.has_key("realtimedata"):
+            if json_array["realtimedata"]:
+                clients[self] = {"send_current_data":True}
+            elif json_array["realtimedata"] == False:
+                clients[self] = {"send_current_data":False}
+            else:
+                self.write_message('{"error":"bad_request"}');
+            return
 
 class DataSocketHandler(tornado.websocket.WebSocketHandler):
     def check_origin(origin, args):
         return True
-        
+    
     def open(self):
         pass
     
@@ -53,17 +64,16 @@ class DataSocketHandler(tornado.websocket.WebSocketHandler):
     def on_message(self,message):
         try:
             json_array = json.loads(message)
-            if json_array["pw"] == config.password:
-                 WindDataWriter(int(json_array["data"]))
-                 WindDataSender(int(json_array["data"]))
-            else:
-                self.write_message("error bad request")
-                log.error("bad request! (wrong password: " + json_array["pw"] + ")")
-                return
         except:
             self.write_message("error bad request")
             log.error("bad request!: (" + message + ")")
             return
+        if json_array["pw"] == config.password:
+            WindDataWriter(int(json_array["data"]))
+            WindDataSender(int(json_array["data"]))
+        else:
+            self.write_message("error bad request")
+            log.error("bad request! (wrong password: " + json_array["pw"] + ")")
 
 class IndexHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -80,8 +90,9 @@ def WindDataWriter(data):
 
 
 def WindDataSender(data):
-    for client in clients:
-        client.write_message(RealtimeWindDaterFormater(data))
+    for client in clients.keys():
+        if clients[client]["send_current_data"] == True:
+            client.write_message(RealtimeWindDaterFormater(data))
 
 def main():
     global conn

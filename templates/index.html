@@ -56,14 +56,19 @@
                     <h1>Winddaten frisch gezapft auf der Lise-Meiter-Schule</h1>
                 </div>
                 <center>
-		<h2>Aktuelle Winddaten in m/s: <span id="wind-power">loading...</span></h2>
+		<h2>Aktuelle Winddaten in m/s: <span id="wind-power"><span title="hier steht nur ...? warscheinlich werden gerade keine Daten an den Server gesendet!">...</span></span>
+                <button onclick="change_receive_winddata()" id="change_receive_winddata-btn" style="font-size:12px;display:none;">
+                    <span id="not_receive_winddata">verschone mich!</span>
+                    <span style="display:none;" id="receive_winddata">oder doch nicht?</span>
+                </button></h2>
                 </center>
 		<div class="content">
                     <h2 class="content-subhead">Chart der Winddaten</h2>
-                    <canvas id="chart" width="818" height="409" style="width: 818px; height: 409px;"></canvas>
+                    <canvas id="Chart" width=600" height="400"></canvas>
                 </div>
             </div> <!-- div main -->
         </div>
         <script src="/static/js/ui.js"></script>
     </body>
 </html>
+	

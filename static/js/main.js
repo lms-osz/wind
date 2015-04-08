@@ -35,7 +35,7 @@ $(document).ready(function() {
 function onOpen(evt) {
 	console.log("opened")
 	$("#disconnected-ws").css("display", "none");
-        doSend('{"client":"web","realtimedata":true}');
+        doSend('{"client":"web","realtimedata":' + receive_winddata + '}');
 }
 
 function onClose(evt) {
@@ -51,6 +51,7 @@ function onMessage(evt) {
         var parsedJSON = jQuery.parseJSON(evt.data);
         if (parsedJSON.mode == "update") {
 		$('#wind-power').html(parsedJSON.data);
+                $("#change_receive_winddata-btn").css("display","block");
 	}
 }
 
@@ -62,6 +63,28 @@ function doSend(message) {
 	console.log("SENT: " + message);
 	websocket.send(message);
 }
+/***********************************************
+ *                   Chart                     *
+ ***********************************************/
+$(document).ready(function() {
+    var ctx = $("#Chart").get(0).getContext("2d");
+    var myLineChart = new Chart(ctx).Line(data);
+});
+var data = {
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [
+        {
+            label: "Wind Data",
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: [28, 48, 40, 19, 86, 27, 90]
+        }
+    ]
+};
 // other stuff
 function about_window(open) {
     var panal = "#about_panal";
@@ -73,6 +96,18 @@ function about_window(open) {
         $(panal).css("display","none");
         $(blackout).css("display","none");
     }
+}
+receive_winddata = true;
+function change_receive_winddata() {
+    if (receive_winddata == true) {
+        $("#not_receive_winddata").css("display","none");
+        $("#receive_winddata").css("display","block");
+    } else {
+        $("#not_receive_winddata").css("display","block");
+        $("#receive_winddata").css("display","none");
+    }
+    receive_winddata = !receive_winddata;
+    doSend('{"realtimedata":' + receive_winddata + '}');
 }
 document.onkeydown = function(event) {
     if (event.keyCode == 27) {

@@ -1,21 +1,23 @@
 #!/usr/bin/env python
 # ~*~ coding: utf-8 ~*~
 
+# tornado/web stuff
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
 import tornado.websocket
-
+# libarys
 import os.path
 import json
 import sys
 import sqlite3
-
 import math
+import time
+# own files
 import config
 import log
-import time
+
 #is there an error in the config-file?
 if config.config_error:
    log.error("there is an error in the config")
@@ -26,6 +28,7 @@ clients = {}
 class SilentErrorHandler(tornado.web.ErrorHandler):
     def _log(self): pass
 
+# handling an websocket-request at "/ws"
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     def check_origin(origin, args):
         return True
@@ -51,6 +54,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                 self.write_message('{"error":"bad_request"}');
             return
 
+# handling an websocket-request at "/datasocket"
 class DataSocketHandler(tornado.websocket.WebSocketHandler):
     def check_origin(origin, args):
         return True
@@ -75,6 +79,7 @@ class DataSocketHandler(tornado.websocket.WebSocketHandler):
             self.write_message("error bad request")
             log.error("bad request! (wrong password: " + json_array["pw"] + ")")
 
+# handling an http request at "/"
 class IndexHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     def get(request):
@@ -97,8 +102,10 @@ def WindDataSender(data):
 def main():
     global conn
     global c
+    # connecting to the sqlite file
     conn = sqlite3.connect(config.db_file)
     c = conn.cursor()
+    # creating table "data" if not exits
     c.execute('''CREATE TABLE IF NOT EXISTS Data ( Timestamp INTEGER, Data INTEGER);''')
     # handlers
     handlers = [
@@ -132,6 +139,8 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         print ""
+        # closing the sqlite file
+        conn.close()
         log.info("Server stopped")
         exit()
 

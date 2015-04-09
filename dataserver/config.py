@@ -5,7 +5,7 @@ CONFIG_PATH = "config.cfg"
 
 # if config does not exits
 if os.path.isfile(CONFIG_PATH) == False:
-    print ("config file does not exists! will be created")
+    print ("Because no config file exits, a config file will be created")
     file = open(CONFIG_PATH, "w")
     file.write("""[server]\nurl=ws://127.0.0.1/datasocket\n\n[settings]\ndelay=1\npassword=foobar\n""")
     file.close()

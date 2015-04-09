@@ -84,6 +84,16 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(request):
         request.render("index.html")
 
+class StoryHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    def get(request):
+        request.render("story.html")
+
+class AboutHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    def get(request):
+        request.render("about.html")
+
 def RealtimeWindDaterFormater(data):
     data = "{\"mode\":\"update\",\"data\":" + str(data) + "}";
     return data
@@ -109,6 +119,8 @@ def main():
     # handlers
     handlers = [
         (r"/", IndexHandler),
+        (r"/story", StoryHandler),
+        (r"/about", AboutHandler),
         (r"/ws", WebSocketHandler),
         (r"/datasocket", DataSocketHandler),
         (r'/favicon.ico', SilentErrorHandler, dict(status_code=404))

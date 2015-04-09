@@ -86,7 +86,7 @@ var data = {
     ]
 };
 // other stuff
-function about_window(open) {
+/*function about_window(open) {
     var panal = "#about_panal";
     var blackout = "#blackout";
     if (open) {
@@ -96,7 +96,7 @@ function about_window(open) {
         $(panal).css("display","none");
         $(blackout).css("display","none");
     }
-}
+}*/
 receive_winddata = true;
 function change_receive_winddata() {
     if (receive_winddata == true) {

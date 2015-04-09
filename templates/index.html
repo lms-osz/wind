@@ -35,7 +35,8 @@
                     <ul class="pure-menu-list">
                         <li class="pure-menu-item"><a href="/" class="pure-menu-link">Home</a></li>
                         <li class="pure-menu-item"><a href="javascript:about_window(true)" class="pure-menu-link">About</a></li>
-                        <li class="pure-menu-item"><a href="https://github.com/dscso/wind/" class="pure-menu-link">Github</a></li>
+                        <li class="pure-menu-item"><a href="story.html" class="pure-menu-link">Geschichtliches</a></li>
+			<li class="pure-menu-item"><a href="https://github.com/dscso/wind/" class="pure-menu-link">Github</a></li>
                     </ul>
                 </div>
             </div>
@@ -44,7 +45,7 @@
                 <!-- Panels -->
                 <div id="blackout"></div>
                 <div id="about_panal" class="new-window">
-                    <span class="close-window-btn" onclick="about_window(false)">x</span>
+                    <span class="close-window-btn" onclick="about_window(false)">Schließen</span>
                     <br> Website created by Jan K. and Jurek Weber
                 </div>
                 <!-- Errors -->
@@ -58,8 +59,8 @@
                 <center>
 		<h2>Aktuelle Winddaten in m/s: <span id="wind-power"><span title="hier steht nur ...? warscheinlich werden gerade keine Daten an den Server gesendet!">...</span></span>
                 <button onclick="change_receive_winddata()" id="change_receive_winddata-btn" style="font-size:12px;display:none;">
-                    <span id="not_receive_winddata">verschone mich!</span>
-                    <span style="display:none;" id="receive_winddata">oder doch nicht?</span>
+                    <span id="not_receive_winddata">Stop!</span>
+                    <span style="display:none;" id="receive_winddata">Start</span>
                 </button></h2>
                 </center>
 		<div class="content">

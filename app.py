@@ -18,9 +18,8 @@ import time
 import config
 import log
 
-#is there an error in the config-file?
 if config.config_error:
-   log.error("there is an error in the config")
+   log.error("an error occurred, please check the config")
    exit()
 
 clients = {}

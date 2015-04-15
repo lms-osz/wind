@@ -84,10 +84,10 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(request):
         request.render("index.html")
 
-class StoryHandler(tornado.web.RequestHandler):
+class DocHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     def get(request):
-        request.render("story.html")
+        request.render("doc.html")
 
 class AboutHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -119,7 +119,7 @@ def main():
     # handlers
     handlers = [
         (r"/", IndexHandler),
-        (r"/story", StoryHandler),
+        (r"/doc", DocHandler),
         (r"/about", AboutHandler),
         (r"/ws", WebSocketHandler),
         (r"/datasocket", DataSocketHandler),

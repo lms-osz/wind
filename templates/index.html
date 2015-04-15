@@ -1,27 +1,7 @@
 <!doctype html>
 <html lang="de">
     <head>
-        <meta charset="utf-8">
-        <meta name="description" content="Wind Statistiken der LMS">
-        
-		<!-- ICON -->
-        <link rel="shortcut icon" type="image/png" href="/static/icon.png">
-        <title>Windstats der LMS</title>
-		
-		<!-- CSS -->
-        <link rel="stylesheet" href="/static/css/pure-min.css">
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="static/css/layouts/side-menu-old-ie.css">
-        <![endif]-->
-        <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="/static/css/layouts/side-menu.css">
-        <!--<![endif]-->
-        <link rel="stylesheet" href="/static/css/main.css">
-		
-	<!-- Javascript -->
-	<script src="/static/js/jquery.min.js"></script>
-        <script src="/static/js/chart.min.js"></script>
-        <script src="/static/js/main.js"></script>
+        {% module Template("headers.html") %}
     </head>
     <body>
         <div id="layout">

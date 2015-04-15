@@ -1,3 +1,4 @@
+# this is an code example form: http://bit.ly/1FKpK5i
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BCM)

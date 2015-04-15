@@ -1,27 +1,7 @@
 <!doctype html>
 <html lang="de">
     <head>
-        <meta charset="utf-8">
-        <meta name="description" content="Wind Statistiken der LMS">
-        
-		<!-- ICON -->
-        <link rel="shortcut icon" type="image/png" href="/static/icon.png">
-        <title>Windstats der LMS</title>
-		
-		<!-- CSS -->
-        <link rel="stylesheet" href="/static/css/pure-min.css">
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="static/css/layouts/side-menu-old-ie.css">
-        <![endif]-->
-        <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="/static/css/layouts/side-menu.css">
-        <!--<![endif]-->
-        <link rel="stylesheet" href="/static/css/main.css">
-		
-	<!-- Javascript -->
-	<script src="/static/js/jquery.min.js"></script>
-        <script src="/static/js/chart.min.js"></script>
-        <script src="/static/js/main.js"></script>
+        {% module Template("headers.html") %}
     </head>
     <body>
         <div id="layout">
@@ -39,8 +19,7 @@
                     	<ul type="circle">
 				<li><i>Elektrotechnischer Aufbau:</i>
 					<ul type="square">
-					<li>Zeichnen eines Schaltplanes
-					<img class="pure-img" src="/static/img/Wind_LMS.png">
+					<li>Zeichnen eines Schaltplanes</li>
 					<li>Auflöten des MCP3008 (A/D-Wandler) auf einer Lochrasterleiterplatte(Alpha-Aufbau), weitere Verbesserungen sind geplant (Design einer Leiterplatte die geätzt wird)
 					</ul>
 				<li><i>Software:</i>
@@ -52,6 +31,11 @@
                     <h2 class="content-subhead">Manuel W.</h2>
                     
                     <h2 class="content-subhead">Jurek W.</h2>
+                    <ul type="circle">
+                        <li>Gr&uuml;der des Projektes</li>
+                        <li>Entwicklung der Website und der anderen Komponeten (daten server datenbank)</li>
+                        <li>Hilfestellung bei hardware und software installation</li> 
+                    </ul>
 	        </div>
             </div>
         </div>

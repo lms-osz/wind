@@ -23,7 +23,7 @@ def on_open(ws):
     def run(*args):
         while True:
             time.sleep(int(config.delay))
-            ws.send('{"pw":"' + config.password + '", "data":"' + str(getData.getData()) + '"}') # sending data in an json format to the server
+            ws.send('{"pw":"' + config.password + '", "data":"' + str(getData.getData(0)) + '"}') # sending data in an json format to the server
     thread.start_new_thread(run, ())
 
 def openWS():

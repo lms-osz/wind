@@ -109,8 +109,4 @@ function change_receive_winddata() {
     receive_winddata = !receive_winddata;
     doSend('{"realtimedata":' + receive_winddata + '}');
 }
-document.onkeydown = function(event) {
-    if (event.keyCode == 27) {
-        about_window(false)
-    }
-}
+

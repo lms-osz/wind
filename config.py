@@ -8,7 +8,7 @@ config_error = False
 if os.path.isfile(CONFIG_PATH) == False:
     print ("config file does not exists! will be created")
     file = open(CONFIG_PATH, "w")
-    file.write("""[server]\nport=9889\n\n[ssl]\nssl=false\ncrt=\nkey=\n\n[settings]\npassword=foobar\n[database]\nfile=wind_data.db""")
+    file.write("""[server]\nport=80\n\n[ssl]\nssl=false\ncrt=\nkey=\n\n[settings]\npassword=foobar\n[database]\nfile=wind_data.db""")
     file.close()
     print ("Please check the config in '" + CONFIG_PATH + "'")
 

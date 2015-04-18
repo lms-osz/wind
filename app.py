@@ -89,6 +89,11 @@ class DocHandler(tornado.web.RequestHandler):
     def get(request):
         request.render("doc.html")
 
+class WebcamHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    def get(request):
+        request.render("webcam.html")
+
 class AboutHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     def get(request):
@@ -121,6 +126,7 @@ def main():
         (r"/", IndexHandler),
         (r"/doc", DocHandler),
         (r"/about", AboutHandler),
+        (r"/webcam", WebcamHandler),
         (r"/ws", WebSocketHandler),
         (r"/datasocket", DataSocketHandler),
         (r'/favicon.ico', SilentErrorHandler, dict(status_code=404))

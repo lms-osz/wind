@@ -2,6 +2,21 @@
 <html lang="de">
     <head>
         {% module Template("headers.html") %}
+        <script>
+        imgurl="http://schule.osz-lise-meitner.eu/record/current.jpg";
+        interval = 1000;
+        function refreshImage() {
+            document.getElementById("webcam").src = imgurl + "?" + Date.now() + Math.random();
+            setTimeout(function(){ refreshImage() }, interval);
+        }
+        function changeInterval(i) {
+            interval = i;
+        }
+        
+        $(document).ready(function() {
+            refreshImage();
+        });
+        </script>
     </head>
     <body>
         <div id="layout">
@@ -9,21 +24,24 @@
             {% module Template("menu.html") %}
             <!-- Main -->
             <div id="main">
-			<h1>Webcam</h1>
-           	    <h2>auf dem Dach der Lise-Meitner-Schule</h2>
-			
-				<div class="content">
-					<p>
-						
-						<img class="pure-img-responsive" src="http://schule.osz-lise-meitner.eu/record/current.jpg?rnd=0.9281055282335728" alt="City">
-					
-					</p>
-
-            
-
-				</div>
-						
-			</div>
+                <h1>Webcam</h1>
+           	<h2>auf dem Dach der Lise-Meitner-Schule</h2>
+		<div class="content">
+                    <p>
+                        <img id="webcam" class="pure-img-responsive" alt="City">
+                    </p>
+                     <select id="image-per-second" size="1" onchange="changeInterval(this.value)">
+                        <option value="250">1/4 s</option>
+                        <option value="333">1/3 s</option>
+                        <option value="500">1/2</option>
+                        <option selected value="1000">1 s</option>
+                        <option value="5000">5 s</option>
+                        <option value="10000">10 s</option>
+                        <option value="30000">30 s</option>
+                        <option value="60000">1 min</option>
+                     </select>
+                </div>
+            </div>
         </div>
     </body>
 </html>

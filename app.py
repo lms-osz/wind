@@ -100,6 +100,7 @@ class AboutHandler(tornado.web.RequestHandler):
         request.render("about.html")
 
 def RealtimeWindDaterFormater(data):
+    data = round((data * 0.00322 / 165 * 1000 - 4) * 50 / 16, 2)
     data = "{\"mode\":\"update\",\"data\":" + str(data) + "}";
     return data
 

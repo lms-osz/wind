@@ -19,26 +19,23 @@
             <p>
              	Unser System besteht grunds&auml;tzlich aus zwei Komponenten:
                 <ol>
-                    <li>dem <b>Webserver</b> (ein einfacher Webserver der die Daten speichert und an alle Browser verteilt)</li>
-                    <li>dem <b>Datenserver</b> (ein Raspberry PI der die Windgeschwindigkeit misst)</li>
+                    <li>Dem <b>Webserver</b>, welche die Daten, die von dem Datenserver stammen an die Clients (Browser) verteilt.
+                    <li>Dem <b>Datenserver</b>, welche die Daten vom Analog/Digital-Wandler auswertet und an dem Webserver weiterreicht. In dem Fall sind die Daten, die aktuelle Windgeschwindigkeit, die Akkuspannung und der Akkustrom zwischen Akku und Verbraucher des Windgenerators. 
                 </ol>
             </p>
 
-            <h2 class="content-subhead">Der Raspberry PI und die Messger&auml;te</h2>
-            <p>
-                Wir haben ein Anemometer(Windmessger&auml;t) auf dem Dach der Lise-Meitner-Schule zu stehen. Der Raspberry PI wandelt die analogen Signale, in digitale Signale um, berchnet diese und sendet sie an den Webserver.
-            </p>
+            <h2 class="content-subhead">Der Aufbau</h2>
             <p>
                 <a href="/static/img/wind_LMS.png">
-				<img class="pure-img" src="/static/img/wind_LMS.png" alt="Schaltplan der Verkabelung"><br>
+				<img class="pure-img" src="/static/img/wind_LMS.png" alt="Schaltplan der Verkabelung">
                 </a>
-                Schaltplan (Jan K.)
+                Schaltplan des MCP3008 und der zugehörigen Komponenten (Jan K.)
 	    </p>
 	    <p>
 		<a href="/static/img/projekt.svg">
                    <img class="pure-img" src="/static/img/projekt.svg" alt="Struktur des Projekt">
-		</a><br>
-		Struktur des Projekts (Jan K.)
+		</a>
+		Allgemeine Struktur des Projekts (Jan K.)
 	    </p>
 	    <h2 class="content-subhead">Der Webserver</h2>
 	    <p>

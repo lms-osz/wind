@@ -16,14 +16,16 @@ def on_error(ws, error):
     print error
 
 def on_close(ws):
+    print ("disconnected");
     time.sleep(2)
     openWS()
 
 def on_open(ws):
     def run(*args):
+        print ("connected");
         while True:
             time.sleep(int(config.delay))
-            ws.send('{"pw":"' + config.password + '", "data":"' + str(getData.getData(0)) + '"}') # sending data in an json format to the server
+            ws.send('{"pw":"' + config.password + '", "data":"' + str(getData.getData(2)) + '"}') # sending data in an json format to the server
     thread.start_new_thread(run, ())
 
 def openWS():

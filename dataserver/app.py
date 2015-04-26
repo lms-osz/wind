@@ -23,9 +23,17 @@ def on_close(ws):
 def on_open(ws):
     def run(*args):
         print ("connected");
+        
         while True:
-            time.sleep(int(config.delay))
-            ws.send('{"pw":"' + config.password + '", "data":"' + str(getData.getData(2)) + '"}') # sending data in an json format to the server
+            tenBit = 0;
+            CHANNEL = 2
+            for i in range(int(config.times) + 1):
+                tenBit = tenBit + getData.getData(CHANNEL)
+                time.sleep((int(config.delay) - 0.0001) / int(config.times))
+             
+            tenBit = tenBit / int(config.times);
+            print(tenBit)
+            ws.send('{"pw":"' + config.password + '", "data":"' + str(tenBit) + '"}') # sending data in an json format to the server
     thread.start_new_thread(run, ())
 
 def openWS():

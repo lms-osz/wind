@@ -72,8 +72,8 @@ class DataSocketHandler(tornado.websocket.WebSocketHandler):
             log.error("bad request!: (" + message + ")")
             return
         if json_array["pw"] == config.password:
-            WindDataWriter(int(json_array["data"]))
-            WindDataSender(int(json_array["data"]))
+            WindDataWriter(json_array)
+            WindDataSender(json_array)
         else:
             self.write_message("error bad request")
             log.error("bad request! (wrong password: " + json_array["pw"] + ")")
@@ -99,9 +99,9 @@ class AboutHandler(tornado.web.RequestHandler):
     def get(request):
         request.render("about.html")
 
-def RealtimeWindDaterFormater(data):
-    data = round((data * 0.00322 / 165 * 1000 - 4) * 50 / 16, 2)
-    data = "{\"mode\":\"update\",\"data\":" + str(data) + "}";
+def RealtimeWindDaterFormater(json_array):
+    #data = round((json_array["wind"] * 0.00322 / 165 * 1000 - 4) * 50 / 16, 2)
+    data = "{\"mode\":\"update\",\"data\":[{\"wind\":" + json_array["wind"] + ",\"Uakku\":" + str(json_array["Uakku"]) + ",\"Iakku\":" + str(json_array["Iakku"]) + "}]}";
     return data
 
 def WindDataWriter(data):

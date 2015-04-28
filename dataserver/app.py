@@ -22,18 +22,26 @@ def on_close(ws):
 
 def on_open(ws):
     def run(*args):
-        print ("connected");
+        print ("connected.....");
         
         while True:
-            tenBit = 0;
-            CHANNEL = 2
+            wind_tenBit = 0;
+            Uakku_tenBit = 0;
+            Iakku_tenBit = 0;
+            
             for i in range(int(config.times) + 1):
-                tenBit = tenBit + getData.getData(CHANNEL)
-                time.sleep((int(config.delay) - 0.0001) / int(config.times))
+                wind_tenBit = wind_tenBit + getData.getData(config.windChannel)
+                Uakku_tenBit = Uakku_tenBit + getData.getData(config.UakkuChannel)
+                Iakku_tenBit = Iakku_tenBit + getData.getData(config.IakkuChannel)
+                
+                time.sleep((int(config.delay) - 0.0501) / int(config.times))
              
-            tenBit = tenBit / int(config.times);
-            print(tenBit)
-            ws.send('{"pw":"' + config.password + '", "data":"' + str(tenBit) + '"}') # sending data in an json format to the server
+            wind_tenBit = wind_tenBit / int(config.times);
+            Uakku_tenBit = Uakku_tenBit / int(config.times);
+            Iakku_tenBit = Iakku_tenBit / int(config.times);
+            
+            
+            ws.send('{"pw":"' + config.password + '", "data":[{"wind":' + str(wind_tenBit) + ',"Uakku":' + str(Uakku_tenBit) + ',"Iakku":' + str(Iakku_tenBit) + '}]}') # sending data in an json format to the server
     thread.start_new_thread(run, ())
 
 def openWS():

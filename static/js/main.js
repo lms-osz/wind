@@ -50,7 +50,7 @@ function onMessage(evt) {
 	console.log("RECEIVE: " + evt.data);
         var parsedJSON = jQuery.parseJSON(evt.data);
         if (parsedJSON.mode == "update") {
-		$('#wind-power').html(parsedJSON.data);
+		$('#wind-power').html(calc_wind(parsedJSON["data"][0]["wind"]));
                 $("#change_receive_winddata-btn").css("display","block");
 	}
 }
@@ -64,6 +64,10 @@ function doSend(message) {
 	websocket.send(message);
 }
 // other stuff
+function calc_wind(data) {
+    data = Math.round(((data * 0.00322 / 165 * 1000 - 4) * 50 / 16) * 100) / 100;
+    return data;
+}
 /*function about_window(open) {
     var panal = "#about_panal";
     var blackout = "#blackout";

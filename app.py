@@ -101,11 +101,11 @@ class AboutHandler(tornado.web.RequestHandler):
 
 def RealtimeWindDaterFormater(json_array):
     #data = round((json_array["wind"] * 0.00322 / 165 * 1000 - 4) * 50 / 16, 2)
-    data = "{\"mode\":\"update\",\"data\":[{\"wind\":" + json_array["wind"] + ",\"Uakku\":" + str(json_array["Uakku"]) + ",\"Iakku\":" + str(json_array["Iakku"]) + "}]}";
+    data = "{\"mode\":\"update\",\"data\":[{\"wind\":" + str(json_array["data"][0]["wind"]) + ",\"Uakku\":" + str(json_array["data"][0]["Uakku"]) + ",\"Iakku\":" + str(json_array["data"][0]["Iakku"]) + "}]}";
     return data
 
 def WindDataWriter(data):
-    c.execute('''INSERT INTO Data VALUES ("''' + str(time.time()) + '''",\'''' + str(data) + '''\')''')
+    c.execute('''INSERT INTO Data VALUES ("''' + str(time.time()) + '''",\'''' + "323" + '''\')''')
     conn.commit()
 
 

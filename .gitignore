@@ -52,3 +52,5 @@ DEADJOE
 config.cfg
 #database
 *.db
+#pid
+*pid*

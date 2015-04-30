@@ -11,7 +11,7 @@ fi
 
 start_server() {
     echo "Staring server . . ."
-    python app.py >> $LOGPATH &
+    python app.py > $LOGPATH &
     echo $! > $PIDPATH
 }
 stop_server() {

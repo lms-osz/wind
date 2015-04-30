@@ -104,7 +104,7 @@ def RealtimeWindDaterFormater(json_array):
     return data
 
 def WindDataWriter(data):
-    c.execute('''INSERT INTO Data VALUES ("''' + str(time.time()) + '''",\'''' + "323" + '''\')''')
+    c.execute("INSERT INTO Data VALUES ('" + str(round(time.time())) + "','" + str(data["data"][0]["wind"]) + "','" + str(data["data"][0]["Uakku"]) + "','" + str(data["data"][0]["Iakku"]) + "');")
     conn.commit()
 
 
@@ -121,7 +121,7 @@ def main():
     conn = sqlite3.connect(config.db_file)
     c = conn.cursor()
     # creating table "data" if not exits
-    c.execute('''CREATE TABLE IF NOT EXISTS Data ( Timestamp INTEGER, Data INTEGER);''')
+    c.execute('''CREATE TABLE IF NOT EXISTS Data ( Timestamp INTEGER, Wind INTEGER, Uakku INTEGER, Iakku INTEGER);''')
     # handlers
     handlers = [
         (r"/", IndexHandler),

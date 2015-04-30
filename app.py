@@ -100,7 +100,6 @@ class AboutHandler(tornado.web.RequestHandler):
         request.render("about.html")
 
 def RealtimeWindDaterFormater(json_array):
-    #data = round((json_array["wind"] * 0.00322 / 165 * 1000 - 4) * 50 / 16, 2)
     data = "{\"mode\":\"update\",\"data\":[{\"wind\":" + str(json_array["data"][0]["wind"]) + ",\"Uakku\":" + str(json_array["data"][0]["Uakku"]) + ",\"Iakku\":" + str(json_array["data"][0]["Iakku"]) + "}]}";
     return data
 
@@ -115,6 +114,7 @@ def WindDataSender(data):
             client.write_message(RealtimeWindDaterFormater(data))
 
 def main():
+    log.info("Starting server . . .")
     global conn
     global c
     # connecting to the sqlite file

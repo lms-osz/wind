@@ -26,22 +26,22 @@ def on_open(ws):
         
         while True:
             wind_tenBit = 0;
-            Uakku_tenBit = 0;
-            Iakku_tenBit = 0;
+            Ubatt_tenBit = 0;
+            Ibatt_tenBit = 0;
             
             for i in range(int(config.times) + 1):
                 wind_tenBit = wind_tenBit + getData.getData(config.windChannel)
-                Uakku_tenBit = Uakku_tenBit + getData.getData(config.UakkuChannel)
-                Iakku_tenBit = Iakku_tenBit + getData.getData(config.IakkuChannel)
+                Ubatt_tenBit = Ubatt_tenBit + getData.getData(config.UbattChannel)
+                Ibatt_tenBit = Ibatt_tenBit + getData.getData(config.IbattChannel)
                 
                 time.sleep((int(config.delay) - 0.0501) / int(config.times))
              
             wind_tenBit = wind_tenBit / int(config.times);
-            Uakku_tenBit = Uakku_tenBit / int(config.times);
-            Iakku_tenBit = Iakku_tenBit / int(config.times);
+            Ubatt_tenBit = Ubatt_tenBit / int(config.times);
+            Ibatt_tenBit = Ibatt_tenBit / int(config.times);
             
             
-            ws.send('{"pw":"' + config.password + '", "data":[{"wind":' + str(wind_tenBit) + ',"Uakku":' + str(Uakku_tenBit) + ',"Iakku":' + str(Iakku_tenBit) + '}]}') # sending data in an json format to the server
+            ws.send('{"pw":"' + config.password + '", "data":[{"wind":' + str(wind_tenBit) + ',"Ubatt":' + str(Ubatt_tenBit) + ',"Ibatt":' + str(Ibatt_tenBit) + '}]}') # sending data in an json format to the server
     thread.start_new_thread(run, ())
 
 def openWS():

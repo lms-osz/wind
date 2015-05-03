@@ -99,29 +99,24 @@ class AboutHandler(tornado.web.RequestHandler):
     def get(request):
         request.render("about.html")
 
-def RealtimeWindDaterFormater(json_array):
-    data = "{\"mode\":\"update\",\"data\":[{\"wind\":" + str(json_array["data"][0]["wind"]) + ",\"Ubatt\":" + str(json_array["data"][0]["Ubatt"]) + ",\"Ibatt\":" + str(json_array["data"][0]["Ibatt"]) + "}]}";
-    return data
-
 def WindDataWriter(data):
-    c.execute("INSERT INTO Data VALUES ('" + str(round(time.time())) + "','" + str(data["data"][0]["wind"]) + "','" + str(data["data"][0]["Ubatt"]) + "','" + str(data["data"][0]["Ibatt"]) + "');")
+    conn.execute("INSERT INTO Data VALUES ('" + str(round(time.time())) + "','" + str(data["data"][0]["wind"]) + "','" + str(data["data"][0]["Ubatt"]) + "','" + str(data["data"][0]["Ibatt"]) + "');")
     conn.commit()
 
 
-def WindDataSender(data):
+def WindDataSender(json_array):
+    data = "{\"mode\":\"update\",\"data\":[{\"wind\":" + str(json_array["data"][0]["wind"]) + ",\"Ubatt\":" + str(json_array["data"][0]["Ubatt"]) + ",\"Ibatt\":" + str(json_array["data"][0]["Ibatt"]) + "}]}";
     for client in clients.keys():
         if clients[client]["send_current_data"] == True:
-            client.write_message(RealtimeWindDaterFormater(data))
+            client.write_message(data)
 
 def main():
     log.info("Starting server . . .")
     global conn
-    global c
     # connecting to the sqlite file
     conn = sqlite3.connect(config.db_file)
-    c = conn.cursor()
     # creating table "data" if not exits
-    c.execute('''CREATE TABLE IF NOT EXISTS Data ( Timestamp INTEGER, Wind INTEGER, Ubatt INTEGER, Ibatt INTEGER);''')
+    conn.execute('''CREATE TABLE IF NOT EXISTS Data ( Timestamp INTEGER, Wind INTEGER, Ubatt INTEGER, Ibatt INTEGER);''')
     # handlers
     handlers = [
         (r"/", IndexHandler),

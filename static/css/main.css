@@ -16,7 +16,7 @@ body, html {
 #disconnected-ws {
     z-index:1;
     position:absolute;
-    display: none;
+    display: block;
     color:#ffffff;
     background-color:#ff0000;
 }

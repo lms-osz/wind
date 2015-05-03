@@ -1,45 +1,55 @@
 <!doctype html>
 <html lang="de">
-    <head>
-        {% module Template("headers.html") %}
-        <script src="/static/js/chart.js"></script>
-    </head>
-    <body>
-        <div id="layout">
-            <!-- Menu -->
-            {% module Template("menu.html") %}
-            <!-- Main -->
-            <div id="main">
-                <!-- header -->
-                <div class="header">
-                    <h1>Winddaten frisch gezapft auf der Lise-Meiter-Schule</h1>
-                </div>
-                <center>
-		<h2>Aktuelle Winddaten:</h2>
-                </center>
-                <div id="realtime_data" align="center">
-                    <table border="0">
-                        <colgroup width="70">
-                        <colgroup width="70">
-                        <tr>
-                            <td>Wind:</td>
-                            <td><span id="rtd-wind">...</span> m/s</td>
-                        </tr>
-                        <tr>
-                            <td>Ubatt:</td>
-                            <td><span id="rtd-Ubatt">...</span>V</td>
-                        </tr>
-                        <tr>
-                            <td>Ibatt:</td>
-                            <td><span id="rtd-Ibatt">...</span>A</td>
-                     </table>
-                </div>
-		<div class="content">
-                    <h2 class="content-subhead">Chart der Winddaten</h2>
-                    <canvas id="Chart" width="600" height="400"></canvas>
-                </div>
-            </div> <!-- div main -->
+
+<head>
+    {% module Template("headers.html") %}
+    <script src="/static/js/chart.js"></script>
+</head>
+
+<body>
+    <div id="layout">
+        <!-- Menu -->
+        {% module Template("menu.html") %}
+        <!-- Main -->
+        <div id="main">
+            <!-- header -->
+            <div class="header">
+                <h1>Winddaten frisch gezapft auf der Lise-Meiter-Schule</h1>
+            </div>
+            <div class="content">
+                <table border="0">
+                    <colgroup width="170" />
+                    <tr>
+                        <td valign="top">
+                            <div id="realtime_data">
+                                <table border="0" style="line-height: 1.3em;">
+                                    <colgroup width="70" />
+                                    <colgroup width="70" />
+                                    <tr>
+                                        <td>Wind:</td>
+                                        <td><span id="rtd-wind">...</span> m/s</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ubatt:</td>
+                                        <td><span id="rtd-Ubatt">...</span>V</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ibatt:</td>
+                                        <td><span id="rtd-Ibatt">...</span>A</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                        <td valign="top">
+                           pass
+                        </td>
+                    </tr>
+                </table>
+                <canvas id="Chart" style="width: 100%; height:10%;"></canvas>
+            </div>
         </div>
-    </body>
+        <!-- div main -->
+    </div>
+</body>
+
 </html>
-	

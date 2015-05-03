@@ -52,6 +52,12 @@ function onMessage(evt) {
         if (parsedJSON.mode == "update") {
 		$('#wind-power').html(calc_wind(parsedJSON["data"][0]["wind"]));
                 $("#change_receive_winddata-btn").css("display","block");
+		if ($('#realtime_data') != null) {
+			$('#rtd-wind').html(calc_wind(parsedJSON["data"][0]["wind"]))
+			$('#rtd-Ubatt').html(calc_Ubatt(parsedJSON["data"][0]["Ubatt"]))
+			$('#rtd-Ibatt').html(calc_Ibatt(parsedJSON["data"][0]["Ibatt"]))
+		}
+		
 	}
 }
 
@@ -66,6 +72,12 @@ function doSend(message) {
 // other stuff
 function calc_wind(data) {
     data = Math.round(((data * 0.00322 / 165 * 1000 - 4) * 50 / 16) * 100) / 100;
+    return data;
+}
+function calc_Ubatt(data) {
+    return data;
+}
+function calc_Ibatt(data) {
     return data;
 }
 /*function about_window(open) {

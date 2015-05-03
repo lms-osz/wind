@@ -24,9 +24,6 @@ if config.config_error:
 
 clients = {}
 
-class SilentErrorHandler(tornado.web.ErrorHandler):
-    def _log(self): pass
-
 # handling an websocket-request at "/ws"
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     def check_origin(origin, args):
@@ -40,6 +37,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
     
     def on_message(self,message):
         try:
+            # try get the value of the json string
             json_array = json.loads(message)
         except:
             self.write_message('{"error":"bad_request"}');
@@ -124,8 +122,7 @@ def main():
         (r"/about", AboutHandler),
         (r"/webcam", WebcamHandler),
         (r"/ws", WebSocketHandler),
-        (r"/datasocket", DataSocketHandler),
-        (r'/favicon.ico', SilentErrorHandler, dict(status_code=404))
+        (r"/datasocket", DataSocketHandler)
     ]
     # settings
     settings = dict(

@@ -75,10 +75,10 @@ function calc_wind(data) {
     return data;
 }
 function calc_Ubatt(data) {
-    return data;
+    return Math.round(data * 0.01517 * 10) / 10;
 }
 function calc_Ibatt(data) {
-    return data;
+    return Math.round(data * 0.0239 * 10) / 10;
 }
 /*function about_window(open) {
     var panal = "#about_panal";

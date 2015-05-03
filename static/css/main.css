@@ -44,3 +44,6 @@ body, html {
     cursor: pointer;
     color: #000000;
 }
+.DatePicker {
+    width: 80px;
+}

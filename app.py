@@ -114,7 +114,7 @@ def main():
     # connecting to the sqlite file
     conn = sqlite3.connect(config.db_file)
     # creating table "data" if not exits
-    conn.execute('''CREATE TABLE IF NOT EXISTS Data ( Timestamp INTEGER, Wind INTEGER, Ubatt INTEGER, Ibatt INTEGER);''')
+    conn.execute('''CREATE TABLE IF NOT EXISTS Data ( Timestamp INTEGER, Wind INTEGER, Ubatt INTEGER, Ibatt INTEGER, PRIMARY KEY(Timestamp));''')
     # handlers
     handlers = [
         (r"/", IndexHandler),

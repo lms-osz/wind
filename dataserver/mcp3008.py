@@ -49,7 +49,7 @@ def getTenBit(channel):
 
 
 if __name__ == "__main__":
-    CHANNEL = 1
+    CHANNEL = int(raw_input("channel "));
     import time
     try:
         while(True):

@@ -98,7 +98,10 @@ class AboutHandler(tornado.web.RequestHandler):
         request.render("about.html")
 
 def WindDataWriter(data):
-    conn.execute("INSERT INTO Data VALUES ('" + str(round(time.time())) + "','" + str(data["data"][0]["wind"]) + "','" + str(data["data"][0]["Ubatt"]) + "','" + str(data["data"][0]["Ibatt"]) + "');")
+    try:
+        conn.execute("INSERT INTO Data VALUES ('" + str(round(time.time())) + "','" + str(data["data"][0]["wind"]) + "','" + str(data["data"][0]["Ubatt"]) + "','" + str(data["data"][0]["Ibatt"]) + "');")
+    except Exception:
+        pass
     conn.commit()
 
 

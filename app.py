@@ -76,6 +76,19 @@ class DataSocketHandler(tornado.websocket.WebSocketHandler):
             self.write_message("error bad request")
             log.error("bad request! (wrong password: " + json_array["pw"] + ")")
 
+class DataRequestHandler(tornado.web.RequestHandler):
+    def get(request):
+        request.set_header('Content-Type', 'application/json; charset="utf-8"')
+        getFrom = request.get_argument("from", strip=True, default="")
+        getTo = request.get_argument("to", strip=True, default="")
+        if getFrom == "" or getTo == "":
+            request.write('{"error":400}')
+            return;
+        
+        request.write("")
+         
+            
+
 # handling an http request at "/"
 class IndexHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -100,8 +113,10 @@ class AboutHandler(tornado.web.RequestHandler):
 def WindDataWriter(data):
     try:
         conn.execute("INSERT INTO Data VALUES ('" + str(round(time.time())) + "','" + str(data["data"][0]["wind"]) + "','" + str(data["data"][0]["Ubatt"]) + "','" + str(data["data"][0]["Ibatt"]) + "');")
-    except Exception:
+    except sqlite3.IntegrityError:
         pass
+    except Execpion as e:
+        print e
     conn.commit()
 
 
@@ -125,7 +140,8 @@ def main():
         (r"/about", AboutHandler),
         (r"/webcam", WebcamHandler),
         (r"/ws", WebSocketHandler),
-        (r"/datasocket", DataSocketHandler)
+        (r"/datasocket", DataSocketHandler),
+        (r"/api/getdata", DataRequestHandler)
     ]
     # settings
     settings = dict(

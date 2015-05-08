@@ -28,9 +28,9 @@ function ConnectWs() {
 /***********************************************
  *       connecting to the websocket           *
  ***********************************************/
-$(document).ready(function() {
+//$(document).ready(function() {
 	ConnectWs();
-});
+//});
 
 function onOpen(evt) {
 	console.log("opened")

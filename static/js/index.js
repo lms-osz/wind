@@ -10,21 +10,23 @@ $(document).ready(function() {
     var myLineChart = new Chart(ctx).Line(data);
 });
 function convertToTimestamp(date, seperator) {
-    date = date.split("seperator");
+    date = date.split(seperator);
     var newDate = date[1] + "/" + date[0] + "/" + date[2];
     return new Date(newDate).getTime();
 }
-function onChangeDayToDay() {
-    
-}
-function onChangeDayTime() {
-    var day = $("#day").value;
-    var hour = $("#hour").value;
-    if (day.length < 0) {
+function showChart() {
+    var dayFrom = $("#day1").val();
+    var dayTo = $("#day2").val();
+    if (dayFrom.length < 1 || dayTo.length < 1) {
         return 0;
     }
-    json = '{"mode":"getData", "arg":[{"mode":"hour", "day":' + convertToTimestamp(day, ".") + ',"hour":' + hour + '}]}';
     
+    try {
+        json = '{"mode":"getData", "arg":[{"mode":"day2day", "dateFrom":' + convertToTimestamp(dayFrom, ".") + ',"dateTo":' + convertToTimestamp(dayTo, ".") + '}]}';
+        doSend(json);
+    } catch (e) {
+        // make an http-request to /api/getData with the argumets as GET parameters (?from=234234234&to=324234234)
+    }
 }
 var data = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],

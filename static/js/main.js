@@ -28,10 +28,6 @@ function ConnectWs() {
 /***********************************************
  *       connecting to the websocket           *
  ***********************************************/
-//$(document).ready(function() {
-	ConnectWs();
-//});
-
 function onOpen(evt) {
 	console.log("opened")
 	$("#disconnected-ws").css("display", "none");
@@ -104,3 +100,16 @@ function change_receive_winddata() {
     doSend('{"realtimedata":' + receive_winddata + '}');
 }
 
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////
+//                                                           //
+//                     Connectig...                          //
+//                                                           //
+///////////////////////////////////////////////////////////////
+
+ConnectWs();

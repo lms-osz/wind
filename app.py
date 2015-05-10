@@ -50,6 +50,16 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
             else:
                 self.write_message('{"error":"bad_request"}');
             return
+        elif json_array.has_key("mode"):
+            if json_array["mode"] == "getData":
+                try:
+                    self.write_message(getDataFromDatabase(json_array["arg"][0]["mode"], json_array["arg"][0]["dateFrom"], json_array["arg"][0]["dateTo"]))
+                except:
+                    self.write_message('{"error":"bad_request"}');
+            else:
+                self.write_message('{"error":"bad_request"}');
+        else:
+            self.write_message('{"error":"bad_request"}');
 
 # handling an websocket-request at "/datasocket"
 class DataSocketHandler(tornado.websocket.WebSocketHandler):
@@ -84,7 +94,7 @@ class DataRequestHandler(tornado.web.RequestHandler):
         if getFrom == "" or getTo == "":
             request.write('{"error":400}')
             return;
-        
+         
         request.write("")
          
             
@@ -110,6 +120,9 @@ class AboutHandler(tornado.web.RequestHandler):
     def get(request):
         request.render("about.html")
 
+def getDataFromDatabase(mode, dateFrom, dateTo):
+    return '{"hallo":"welt"}';
+
 def WindDataWriter(data):
     try:
         conn.execute("INSERT INTO Data VALUES ('" + str(round(time.time())) + "','" + str(data["data"][0]["wind"]) + "','" + str(data["data"][0]["Ubatt"]) + "','" + str(data["data"][0]["Ibatt"]) + "');")
@@ -130,7 +143,7 @@ def main():
     log.info("Starting server . . .")
     global conn
     # connecting to the sqlite file
-    conn = sqlite3.connect(config.db_file)
+    conn = sqlite3.connect(config.db_rawData)
     # creating table "data" if not exits
     conn.execute('''CREATE TABLE IF NOT EXISTS Data ( Timestamp INTEGER, Wind INTEGER, Ubatt INTEGER, Ibatt INTEGER, PRIMARY KEY(Timestamp));''')
     # handlers
@@ -141,7 +154,7 @@ def main():
         (r"/webcam", WebcamHandler),
         (r"/ws", WebSocketHandler),
         (r"/datasocket", DataSocketHandler),
-        (r"/api/getdata", DataRequestHandler)
+        (r"/api/getData", DataRequestHandler)
     ]
     # settings
     settings = dict(

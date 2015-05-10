@@ -121,7 +121,11 @@ class AboutHandler(tornado.web.RequestHandler):
         request.render("about.html")
 
 def getDataFromDatabase(mode, dateFrom, dateTo):
-    return '{"hallo":"welt"}';
+    sql = "SELECT * FROM Data WHERE Timestamp BETWEEN " + str(dateFrom) + " AND " + str(dateTo) + ";";
+    data = 0
+    for row in conn.execute(sql):
+        data = data + row[2]
+    return str(data);
 
 def WindDataWriter(data):
     try:

@@ -12,7 +12,7 @@ $(document).ready(function() {
 function convertToTimestamp(date, seperator) {
     date = date.split(seperator);
     var newDate = date[1] + "/" + date[0] + "/" + date[2];
-    return new Date(newDate).getTime();
+    return new Date(newDate).getTime() / 1000;
 }
 function showChart() {
     var dayFrom = $("#day1").val();

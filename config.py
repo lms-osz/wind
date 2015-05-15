@@ -8,7 +8,7 @@ config_error = False
 if os.path.isfile(CONFIG_PATH) == False:
     print ("config file does not exists! will be created")
     file = open(CONFIG_PATH, "w")
-    file.write("""[server]\nport=80\n\n[ssl]\nssl=false\ncrt=\nkey=\n\n[settings]\npassword=foobar\n[database]\nrawData=rawData.db\nhourlyData=hourlyData.db""")
+    file.write("""[server]\nport=80\n\n[ssl]\nssl=false\ncrt=\nkey=\n\n[settings]\npassword=foobar\n[database]\nrawData=rawData.db\n""")
     file.close()
     print ("Please check the config in '" + CONFIG_PATH + "'")
 
@@ -19,7 +19,6 @@ try:
    port = configParser.get("server", "port")
    password = configParser.get("settings", "password")
    db_rawData = configParser.get("database", "rawData")
-   db_hourlyData = configParser.get("database", "hourlyData")
 except:
     config_error = True
 try:

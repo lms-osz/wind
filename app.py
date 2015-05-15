@@ -128,9 +128,9 @@ def getChunkNumber(intfrom, steps, val):
     return (val - intfrom) / steps;
 
 def getDataFromDatabase(dateFrom, dateTo):
-    chartPoins = 24
+    chartPoins = 24;
     sql = "SELECT * FROM Data WHERE Timestamp BETWEEN " + str(dateFrom) + " AND " + str(dateTo) + ";";
-    steps = ((dateTo - dateFrom) / chartPoins);
+    steps = ((dateTo - dateFrom) / (chartPoins - 1));
     chunk = 0
     i = {};
     wind = {};
@@ -161,8 +161,12 @@ def getDataFromDatabase(dateFrom, dateTo):
         Ubatt[chunk] = Ubatt[chunk] + row[2];
         Ibatt[chunk] = Ibatt[chunk] + row[3];
         i[chunk] = i[chunk] + 1;
+    wind[chunkPrev] = wind[chunkPrev] / i[chunkPrev];
+    Ubatt[chunkPrev] = Ubatt[chunkPrev] / i[chunkPrev];
+    Ibatt[chunkPrev] = Ibatt[chunkPrev] / i[chunkPrev];
     json_dict = {}
     json_dict["mode"] = "return_data";
+    json_dict["steps"] = chartPoins;
     json_dict["data"] = {}
     json_dict["data"]["wind"] = wind;
     json_dict["data"]["Ubatt"] = Ubatt;

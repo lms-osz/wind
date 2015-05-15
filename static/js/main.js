@@ -55,7 +55,7 @@ function onMessage(evt) {
 		}
 		
 	} else if (parsedJSON.mode == "return_data") {
-            
+            showChart(parsedJSON);
         }
 }
 

@@ -54,3 +54,5 @@ config.cfg
 *.db
 #pid
 *pid*
+#vim
+*.swp

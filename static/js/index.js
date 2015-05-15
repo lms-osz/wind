@@ -14,7 +14,7 @@ function convertToTimestamp(date, seperator) {
     var newDate = date[1] + "/" + date[0] + "/" + date[2];
     return new Date(newDate).getTime() / 1000;
 }
-function showChart() {
+function sendChartRequest() {
     var dayFrom = $("#day1").val();
     var dayTo = $("#day2").val();
     if (dayFrom.length < 1 || dayTo.length < 1) {

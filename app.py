@@ -52,10 +52,10 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
             return
         elif json_array.has_key("mode"):
             if json_array["mode"] == "getData":
-                #try:
-                self.write_message(getDataFromDatabase(json_array["arg"][0]["mode"], json_array["arg"][0]["dateFrom"], json_array["arg"][0]["dateTo"]))
-                #except:
-                #    self.write_message('{"error":"bad_request"}');
+                try:
+                    self.write_message(getDataFromDatabase(json_array["arg"][0]["dateFrom"], json_array["arg"][0]["dateTo"]))
+                except:
+                    self.write_message('{"error":"bad_request"}');
             else:
                 self.write_message('{"error":"bad_request"}');
         else:
@@ -89,13 +89,17 @@ class DataSocketHandler(tornado.websocket.WebSocketHandler):
 class DataRequestHandler(tornado.web.RequestHandler):
     def get(request):
         request.set_header('Content-Type', 'application/json; charset="utf-8"')
-        getFrom = request.get_argument("from", strip=True, default="")
-        getTo = request.get_argument("to", strip=True, default="")
-        if getFrom == "" or getTo == "":
+        try:
+            getFrom = int(request.get_argument("from", strip=True, default=""));
+            getTo = int(request.get_argument("to", strip=True, default=""));
+        except Exception:
             request.write('{"error":400}')
             return;
-         
-        request.write("")
+        try: 
+            request.write(getDataFromDatabase(getFrom, getTo))
+        except Exception:
+            request.write('{"error":400}')
+            return;
          
             
 
@@ -123,10 +127,9 @@ class AboutHandler(tornado.web.RequestHandler):
 def getChunkNumber(intfrom, steps, val):
     return (val - intfrom) / steps;
 
-def getDataFromDatabase(mode, dateFrom, dateTo):
+def getDataFromDatabase(dateFrom, dateTo):
     chartPoins = 24
     sql = "SELECT * FROM Data WHERE Timestamp BETWEEN " + str(dateFrom) + " AND " + str(dateTo) + ";";
-    print sql
     steps = ((dateTo - dateFrom) / chartPoins);
     chunk = 0
     i = {};
@@ -145,9 +148,14 @@ def getDataFromDatabase(mode, dateFrom, dateTo):
             Ibatt[chunk] = 0;
             i[chunk] = 0;
         if chunk != chunkPrev:
-            wind[chunkPrev] = wind[chunkPrev] / i[chunkPrev];
-            Ubatt[chunkPrev] = Ubatt[chunkPrev] / i[chunkPrev];
-            Ibatt[chunkPrev] = Ibatt[chunkPrev] / i[chunkPrev];
+            try:
+                wind[chunkPrev] = wind[chunkPrev] / i[chunkPrev];
+                Ubatt[chunkPrev] = Ubatt[chunkPrev] / i[chunkPrev];
+                Ibatt[chunkPrev] = Ibatt[chunkPrev] / i[chunkPrev];
+            except KeyError:
+                wind[chunkPrev] = -1;
+                Ubatt[chunkPrev] = -1;
+                Ibatt[chunkPrev] = -1;
         chunkPrev = chunk
         wind[chunk] = wind[chunk] + row[1];
         Ubatt[chunk] = Ubatt[chunk] + row[2];

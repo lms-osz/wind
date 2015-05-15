@@ -54,7 +54,9 @@ function onMessage(evt) {
 			$('#rtd-Ibatt').html(calc_Ibatt(parsedJSON["data"][0]["Ibatt"]))
 		}
 		
-	}
+	} else if (parsedJSON.mode == "return_data") {
+            
+        }
 }
 
 function onError(evt) {

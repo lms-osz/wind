@@ -52,10 +52,10 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
             return
         elif json_array.has_key("mode"):
             if json_array["mode"] == "getData":
-                try:
-                    self.write_message(getDataFromDatabase(json_array["arg"][0]["mode"], json_array["arg"][0]["dateFrom"], json_array["arg"][0]["dateTo"]))
-                except:
-                    self.write_message('{"error":"bad_request"}');
+                #try:
+                self.write_message(getDataFromDatabase(json_array["arg"][0]["mode"], json_array["arg"][0]["dateFrom"], json_array["arg"][0]["dateTo"]))
+                #except:
+                #    self.write_message('{"error":"bad_request"}');
             else:
                 self.write_message('{"error":"bad_request"}');
         else:
@@ -120,12 +120,46 @@ class AboutHandler(tornado.web.RequestHandler):
     def get(request):
         request.render("about.html")
 
+def getChunkNumber(intfrom, steps, val):
+    return (val - intfrom) / steps;
+
 def getDataFromDatabase(mode, dateFrom, dateTo):
+    chartPoins = 24
     sql = "SELECT * FROM Data WHERE Timestamp BETWEEN " + str(dateFrom) + " AND " + str(dateTo) + ";";
-    data = 0
+    print sql
+    steps = ((dateTo - dateFrom) / chartPoins);
+    chunk = 0
+    i = {};
+    wind = {};
+    Ibatt = {};
+    Ubatt = {};
+    chunkPrev = 0;
     for row in conn.execute(sql):
-        data = data + row[2]
-    return str(data);
+        chunk = getChunkNumber(dateFrom, steps, row[0]);
+        try:
+            if wind[chunk] == 1:
+                pass
+        except KeyError:
+            wind[chunk] = 0;
+            Ubatt[chunk] = 0;
+            Ibatt[chunk] = 0;
+            i[chunk] = 0;
+        if chunk != chunkPrev:
+            wind[chunkPrev] = wind[chunkPrev] / i[chunkPrev];
+            Ubatt[chunkPrev] = Ubatt[chunkPrev] / i[chunkPrev];
+            Ibatt[chunkPrev] = Ibatt[chunkPrev] / i[chunkPrev];
+        chunkPrev = chunk
+        wind[chunk] = wind[chunk] + row[1];
+        Ubatt[chunk] = Ubatt[chunk] + row[2];
+        Ibatt[chunk] = Ibatt[chunk] + row[3];
+        i[chunk] = i[chunk] + 1;
+    json_dict = {}
+    json_dict["mode"] = "return_data";
+    json_dict["data"] = {}
+    json_dict["data"]["wind"] = wind;
+    json_dict["data"]["Ubatt"] = Ubatt;
+    json_dict["data"]["Ibatt"] = Ibatt;
+    return json.dumps(json_dict, separators=(',', ':'));
 
 def WindDataWriter(data):
     try:

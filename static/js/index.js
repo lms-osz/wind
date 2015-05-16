@@ -45,19 +45,49 @@ function showChart(json_array) {
         if (json_array["to"] - json_array["from"] == 86400) {
             chartLabels[i] = (d.getHours() + "");
         } else {
-            chartLabels[i] = (d.getDate());
+            chartLabels[i] = (d.getDate() + "." + d.getMonth() + "<br>" +  d.getHours() + ":00");
         }
     }
     new Chartist.Line('.ct-chart', {
-  labels: chartLabels,
-  series: [
-    chartSeries
-  ]
-}, {
-  fullWidth: true,
-  chartPadding: {
-    right: 40
-  }
+        labels: chartLabels,
+        series: [
+            {
+                name: "Wind",
+                data: chartSeries
+            }
+        ]
+       }, {
+          fullWidth: true,
+          chartPadding: {
+          right: 40
+      },
+      axisY: {
+          onlyInteger: true,
+          offset: 20
+      }
+    });
+    var chart = $('.ct-chart');
+
+var $toolTip = chart
+  .append('<div class="tooltip"></div>')
+  .find('.tooltip')
+  .hide();
+
+chart.on('mouseenter', '.ct-point', function() {
+    var point = $(this),
+    value = point.attr('ct:value'),
+    seriesName = point.parent().attr('ct:series-name');
+  $toolTip.html(seriesName + '<br>' + value + " m/s").show();
 });
 
+chart.on('mouseleave', '.ct-point', function() {
+  $toolTip.hide();
+});
+
+chart.on('mousemove', function(event) {
+  $toolTip.css({
+    left: (event.offsetX || event.originalEvent.layerX) - $toolTip.width() / 2 - 10,
+    top: (event.offsetY || event.originalEvent.layerY) - $toolTip.height() - 40
+  });
+});
 }

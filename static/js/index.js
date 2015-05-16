@@ -5,7 +5,6 @@ $(document).ready(function() {
     $("#day1").datepicker("option", "dateFormat", "dd.mm.yy");
     $("#day2").datepicker("option", "dateFormat", "dd.mm.yy");
     $("#day").datepicker("option", "dateFormat", "dd.mm.yy");
-    ctx = $("#Chart").get(0).getContext("2d");
 });
 function convertToTimestamp(date, seperator) {
     date = date.split(seperator);
@@ -27,11 +26,31 @@ function sendChartRequest() {
     }
 }
 function showChart(json_array) {
+    var chartLabels = []
+    var d;
+    var error = false;
     for (var i = 0; i < json_array.steps; i = i + 1) {
+        if (!(json_array["data"]["wind"][i] > 0)) {
+            error = true;
+            break;
+        }
         json_array["data"]["wind"][i] = calc_wind(json_array["data"]["wind"][i])
     }
+    if (error) {
+        alert("Error: There are some unset data... Try another period...");
+        return;
+    }
+    for (var i = 0; i < json_array.steps; i = i + 1) {
+        d = new Date((json_array["from"] + (i * ((json_array["to"] - json_array["from"]) / json_array["steps"]))) * 1000);
+        if (json_array["to"] - json_array["from"] == 86400) {
+            chartLabels[i] = (d.getHours() + " Uhr");
+        } else {
+            chartLabels[i] = (d.getDate() + "." + d.getMonth() + "." + (d.getFullYear() - 2000) + ", " +  d.getHours() + ":00");
+        }
+    }
+    
     var data = {
-        labels: ["","","","","","","","","","","","","","","","","","","","","","","",""],
+        labels: chartLabels,
         datasets: [
             {
                 label: "Wind Daten",
@@ -46,5 +65,7 @@ function showChart(json_array) {
         ] 
     };
     // the global chart
-    Chart = new Chart(ctx).Line(data); 
+    $("#chartContainer").html('<canvas id="Chart" style="width: 800px; height: 400px;" width="1600" height="800"></canvas>');
+    var ctx = $("#Chart").get(0).getContext("2d");
+    new Chart(ctx).Line(data);
 }

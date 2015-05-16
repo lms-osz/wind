@@ -167,6 +167,8 @@ def getDataFromDatabase(dateFrom, dateTo):
     json_dict = {}
     json_dict["mode"] = "return_data";
     json_dict["steps"] = chartPoins;
+    json_dict["from"] = dateFrom;
+    json_dict["to"] = dateTo;
     json_dict["data"] = {}
     json_dict["data"]["wind"] = wind;
     json_dict["data"]["Ubatt"] = Ubatt;

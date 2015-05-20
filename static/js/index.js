@@ -6,6 +6,15 @@ $(document).ready(function() {
     $("#day2").datepicker("option", "dateFormat", "dd.mm.yy");
     $("#day").datepicker("option", "dateFormat", "dd.mm.yy");
 });
+function showLoading(show) {
+    if (show) {
+        $("#loading-blackout").show()
+        $("#loading-text").show()
+    } else {
+        $("#loading-blackout").hide()
+        $("#loading-text").hide()
+    }
+}
 function convertToTimestamp(date, seperator) {
     date = date.split(seperator);
     var newDate = date[1] + "/" + date[0] + "/" + date[2];
@@ -21,11 +30,13 @@ function sendChartRequest() {
     try {
         json = '{"mode":"getData", "arg":[{"mode":"day2day", "dateFrom":' + convertToTimestamp(dayFrom, ".") + ',"dateTo":' + convertToTimestamp(dayTo, ".") + '}]}';
         doSend(json);
+        showLoading(true);
     } catch (e) {
         // make an http-request to /api/getData with the argumets as GET parameters (?from=234234234&to=324234234)
     }
 }
 function showChart(json_array) {
+    showLoading(false);
     var chartLabels = [],chartSeries = [];
     var d;
     var error = false;

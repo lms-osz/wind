@@ -69,13 +69,15 @@ function showChart(json_array) {
         ]
        }, {
           fullWidth: true,
+          high: 10,
+          low: 0,
           chartPadding: {
-          right: 40
-      },
-      axisY: {
-          onlyInteger: true,
-          offset: 20
-      }
+              right: 40
+          },
+          axisY: {
+              onlyInteger: true,
+              offset: 20
+          },
     });
     var chart = $('.ct-chart');
 

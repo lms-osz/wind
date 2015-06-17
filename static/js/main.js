@@ -73,7 +73,7 @@ function calc_wind(data) {
     return data;
 }
 function calc_Ubatt(data) {
-    return Math.round(data * 0.01517 * 10) / 10;
+    return Math.round(data * 0.01517 * 10 + 2) / 10;
 }
 function calc_Ibatt(data) {
     return Math.round(data * 0.0239 * 10) / 10;

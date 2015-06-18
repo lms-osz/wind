@@ -6,7 +6,7 @@ We are using two diffrent programms
 
 ### Webserver
 
-If you want to install the webserver, you need some packages:
+If you want to install the webserver, you need some python packages:
 - tornado
 - sqlite3
 

@@ -32,8 +32,9 @@ function onOpen(evt) {
 	console.log("opened")
 	$("#disconnected-ws").css("display", "none");
         doSend('{"client":"web","realtimedata":' + receive_winddata + '}');
+        
+            getChartOfToday();
 }
-
 function onClose(evt) {
 	console.log("DISCONNECTED");
 	$("#disconnected-ws").css("display", "block");
@@ -73,7 +74,7 @@ function calc_wind(data) {
     return data;
 }
 function calc_Ubatt(data) {
-    return Math.round(data * 0.01517 * 10 + 2) / 10;
+    return Math.round(data * 0.01517 * 10) / 10;
 }
 function calc_Ibatt(data) {
     return Math.round(data * 0.0239 * 10) / 10;
@@ -113,5 +114,6 @@ function change_receive_winddata() {
 //                     Connectig...                          //
 //                                                           //
 ///////////////////////////////////////////////////////////////
-
-ConnectWs();
+$(document).ready(function() {
+    ConnectWs();
+});

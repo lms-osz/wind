@@ -48,7 +48,9 @@ function showChart(json_array) {
         chartSeries[i] = calc_wind(json_array["data"]["wind"][i])
     }
     if (error) {
-        alert("Error: There are some unset data... Try another period...");
+        if (showChartError) {
+            alert("Error: There are some unset data... Try another period...");
+        }
         return;
     }
     for (var i = 0; i < json_array.steps; i = i + 1) {
@@ -56,7 +58,7 @@ function showChart(json_array) {
         if (json_array["to"] - json_array["from"] == 86400) {
             chartLabels[i] = (d.getHours() + "");
         } else {
-            chartLabels[i] = (d.getDate() + "." + d.getMonth() + "<br>" +  d.getHours() + ":00");
+            chartLabels[i] = (d.getDate() + "." + (d.getMonth() + 1) + "<br>" +  d.getHours() + ":00");
         }
     }
     new Chartist.Line('.ct-chart', {
@@ -103,4 +105,15 @@ chart.on('mousemove', function(event) {
     top: (event.offsetY || event.originalEvent.layerY) - $toolTip.height() - 40
   });
 });
+showChartError = true;
+}
+
+showChartError = false;
+
+function getChartOfToday() {
+    var now = new Date();
+    var dayTo = new Date(now.getFullYear(), now.getMonth(), now.getDate()) / 1000;
+    var dayFrom = dayTo - 86400;
+    json = '{"mode":"getData", "arg":[{"mode":"day2day", "dateFrom":' + dayFrom + ',"dateTo":' + dayTo + '}]}';
+    doSend(json);
 }

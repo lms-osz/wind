@@ -49,7 +49,7 @@ function showChart(json_array) {
     }
     if (error) {
         if (showChartError) {
-            alert("Error: There are some unset data... Try another period...");
+            $('<div title="Error" style="color: #ff0000;">Error: There are some unset data... Try another period...</div>').dialog().delay(2000).queue(function(){$(this).remove();});
         }
         return;
     }
@@ -58,9 +58,10 @@ function showChart(json_array) {
         if (json_array["to"] - json_array["from"] == 86400) {
             chartLabels[i] = (d.getHours() + "");
         } else {
-            chartLabels[i] = (d.getDate() + "." + (d.getMonth() + 1) + "<br>" +  d.getHours() + ":00");
+            chartLabels[i] = (d.getDate() + "." + (d.getMonth() + 1) + "<br/>" +  d.getHours());
         }
     }
+    // draw chart
     new Chartist.Line('.ct-chart', {
         labels: chartLabels,
         series: [
@@ -81,31 +82,35 @@ function showChart(json_array) {
               offset: 20
           },
     });
+    // adding the time
+    var dateFrom = new Date(json_array["from"] * 1000);
+    var dateTo = new Date(json_array["to"] * 1000);
+    $('.chartTime').html(dateFrom.getDate() + "." + (dateFrom.getMonth() + 1) + "." + dateFrom.getFullYear() + " - " +  dateTo.getDate() + "." + (dateTo.getMonth() + 1) + "." + dateTo.getFullYear() + ":")
     var chart = $('.ct-chart');
+    // adding this nice popup 
+    var $toolTip = chart
+      .append('<div class="tooltip"></div>')
+      .find('.tooltip')
+      .hide();
 
-var $toolTip = chart
-  .append('<div class="tooltip"></div>')
-  .find('.tooltip')
-  .hide();
+    chart.on('mouseenter', '.ct-point', function() {
+        var point = $(this),
+        value = point.attr('ct:value'),
+        seriesName = point.parent().attr('ct:series-name');
+        $toolTip.html(seriesName + '<br>' + value + " m/s").show();
+    });
 
-chart.on('mouseenter', '.ct-point', function() {
-    var point = $(this),
-    value = point.attr('ct:value'),
-    seriesName = point.parent().attr('ct:series-name');
-  $toolTip.html(seriesName + '<br>' + value + " m/s").show();
-});
+    chart.on('mouseleave', '.ct-point', function() {
+        $toolTip.hide();
+    });
 
-chart.on('mouseleave', '.ct-point', function() {
-  $toolTip.hide();
-});
-
-chart.on('mousemove', function(event) {
-  $toolTip.css({
-    left: (event.offsetX || event.originalEvent.layerX) - $toolTip.width() / 2 - 10,
-    top: (event.offsetY || event.originalEvent.layerY) - $toolTip.height() - 40
-  });
-});
-showChartError = true;
+    chart.on('mousemove', function(event) {
+        $toolTip.css({
+            left: (event.offsetX || event.originalEvent.layerX) - $toolTip.width() / 2 - 10,
+            top: (event.offsetY || event.originalEvent.layerY) - $toolTip.height() - 40
+        });
+    });
+    showChartError = true;
 }
 
 showChartError = false;

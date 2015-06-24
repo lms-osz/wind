@@ -32,8 +32,9 @@ function onOpen(evt) {
 	console.log("opened")
 	$("#disconnected-ws").css("display", "none");
         doSend('{"client":"web","realtimedata":' + receive_winddata + '}');
-        
+        try {
             getChartOfToday();
+        } catch (e) {}
 }
 function onClose(evt) {
 	console.log("DISCONNECTED");
